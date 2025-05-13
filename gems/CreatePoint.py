@@ -12,7 +12,7 @@ class MatchField(ABC):
 class CreatePoint(MacroSpec):
     name: str = "CreatePoint"
     projectName: str = "DatabricksSqlSpatial"
-    category: str = "Custom"
+    category: str = "Spatial"
     minNumOfInputPorts: int = 1
 
     @dataclass(frozen=True)
