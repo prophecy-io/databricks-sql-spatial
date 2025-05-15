@@ -24,16 +24,16 @@
 
     {#–– radius & distance alias ––#}
     {%- if units == 'kms' -%}
-      {%- set distance_col = 'distance_kilometers' -%}
+      {%- set distance_col = 'distanceKilometers' -%}
       {%- set radius        = 6371 -%}
     {%- elif units == 'mls' -%}
-      {%- set distance_col = 'distance_miles' -%}
+      {%- set distance_col = 'distanceMiles' -%}
       {%- set radius        = 3958.8 -%}
     {%- elif units == 'mtr' -%}
-      {%- set distance_col = 'distance_meters' -%}
+      {%- set distance_col = 'distanceMeters' -%}
       {%- set radius        = 6371000 -%}
     {%- elif units == 'feet' -%}
-      {%- set distance_col = 'distance_feet' -%}
+      {%- set distance_col = 'distanceFeet' -%}
       {%- set radius        = 6371000 * 3.28084 -%}
     {%- else -%}
       {%- set distance_col = 'distance' -%}
