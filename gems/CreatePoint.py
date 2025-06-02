@@ -204,8 +204,8 @@ class CreatePoint(MacroSpec):
             "'" + table_name + "'",
             str(grouped_fields)
         ]
-        non_empty_param = ",".join([param for param in arguments if param != ''])
-        return f'{{{{ {resolved_macro_name}({non_empty_param}) }}}}'
+        params = ",".join([param for param in arguments])
+        return f'{{{{ {resolved_macro_name}({params}) }}}}'
 
     def loadProperties(self, properties: MacroProperties) -> PropertiesType:
         # load the component's state given default macro property representation
