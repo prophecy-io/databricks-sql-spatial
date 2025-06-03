@@ -1,6 +1,6 @@
 name: DatabricksSqlSpatial
 description: ''
-version: 0.0.1
+version: 0.0.2
 author: abhinav@prophecy.io
 language: sql
 buildSystem: ''
@@ -49,6 +49,17 @@ sqlMacros:
       - macros/macros.yml
       - gems/CreatePoint.py
     createdAt: '2025-04-10 05:01:34'
+  .prophecy/metadata/sqlmacros/FindNearest:
+    name: FindNearest
+    macroType: query
+    description: null
+    author: adak.debashis@prophecy.io
+    files:
+      - macros/FindNearest.sql
+      - .prophecy/ide/macros/FindNearest.json
+      - macros/macros.yml
+      - gems/FindNearest.py
+    createdAt: '2025-06-03 05:01:34'
 sqlSeeds: {}
 sqlSources: {}
 sqlUnreferencedSources: {}
