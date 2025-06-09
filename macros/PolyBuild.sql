@@ -7,15 +7,15 @@
         sequenceColumnName=''
 ) %}
 
+{{ log("relation_name: " ~ relation_name, info=True) }}
+{{ log("buildMethod: " ~ buildMethod, info=True) }}
+{{ log("longitudeColumnName: " ~ longitudeColumnName, info=True) }}
+{{ log("latitudeColumnName: " ~ latitudeColumnName, info=True) }}
+{{ log("groupColumnName: " ~ groupColumnName, info=True) }}
+{{ log("sequenceColumnName: " ~ sequenceColumnName, info=True) }}
+
 {# ── validate buildMethod ──────────────────────────────────────────────── #}
 {% set method = buildMethod | lower %}
-{% if method not in ['sequencepolygon', 'sequencepolyline'] %}
-    {{ exceptions.raise(
-        "PolyBuild: buildMethod must be 'SequencePolygon' or "
-        ~ "'SequencePolyline' (case-insensitive). Got '" ~ buildMethod ~ "'."
-    ) }}
-{% endif %}
-
 {# ── flag presence of group / sequence columns ─────────────────────────── #}
 {% set has_group = groupColumnName   | trim | length > 0 %}
 {% set has_seq   = sequenceColumnName | trim | length > 0 %}

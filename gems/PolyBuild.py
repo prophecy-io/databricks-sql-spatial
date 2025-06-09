@@ -139,13 +139,13 @@ class PolyBuild(MacroSpec):
                 Diagnostic("component.properties.latitudeColumnName", f"Selected latitude column {component.properties.latitudeColumnName} is not present in input schema.", SeverityLevelEnum.Error)
             )
 
-        if component.properties.groupColumnName is not None or component.properties.groupColumnName != '':
+        if component.properties.groupColumnName != '':
             if component.properties.groupColumnName not in field_names:
                 diagnostics.append(
                     Diagnostic("component.properties.groupColumnName", f"Selected group column {component.properties.groupColumnName} is not present in input schema.", SeverityLevelEnum.Error)
                 )
 
-        if component.properties.sequenceColumnName is not None or component.properties.sequenceColumnName != '':
+        if component.properties.sequenceColumnName != '':
             if component.properties.sequenceColumnName not in field_names:
                 diagnostics.append(
                     Diagnostic("component.properties.sequenceColumnName", f"Selected sequence column {component.properties.sequenceColumnName} is not present in input schema.", SeverityLevelEnum.Error)
@@ -167,9 +167,13 @@ class PolyBuild(MacroSpec):
     def apply(self, props: PolyBuildProperties) -> str:
         # generate the actual macro call given the component's state
         resolved_macro_name = f"{self.projectName}.{self.name}"
+
+        # Get the Single Table Name
+        table_name: str = ",".join(str(rel) for rel in props.relation_name)
+
         arguments = [
-            str(props.relation_name),
-            "'" + buildMethod + "'",
+            str(props.table_name),
+            "'" + props.buildMethod + "'",
             "'" + props.longitudeColumnName + "'",
             "'" + props.latitudeColumnName + "'",
             "'" + props.groupColumnName + "'",
