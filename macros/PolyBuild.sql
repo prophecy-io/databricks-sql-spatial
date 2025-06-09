@@ -7,13 +7,6 @@
         sequenceColumnName=''
 ) %}
 
-{{ log("relation_name: " ~ relation_name, info=True) }}
-{{ log("buildMethod: " ~ buildMethod, info=True) }}
-{{ log("longitudeColumnName: " ~ longitudeColumnName, info=True) }}
-{{ log("latitudeColumnName: " ~ latitudeColumnName, info=True) }}
-{{ log("groupColumnName: " ~ groupColumnName, info=True) }}
-{{ log("sequenceColumnName: " ~ sequenceColumnName, info=True) }}
-
 {# ── 0. quick passthrough check ────────────────────────────────────────── #}
 {% if longitudeColumnName | trim | length == 0
       or latitudeColumnName  | trim | length == 0 %}
