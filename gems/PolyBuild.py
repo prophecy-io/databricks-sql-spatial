@@ -129,12 +129,12 @@ class PolyBuild(MacroSpec):
 
         # Extract all column names from the schema
         field_names = [field["name"] for field in component.ports.inputs[0].schema["fields"]]
-        if component.properties.longitudeColumnName not in field_names:
+        if component.properties.longitudeColumnName !='' and component.properties.longitudeColumnName not in field_names:
             diagnostics.append(
                 Diagnostic("component.properties.longitudeColumnName", f"Selected longitude column {component.properties.longitudeColumnName} is not present in input schema.", SeverityLevelEnum.Error)
             )
 
-        if component.properties.latitudeColumnName not in field_names:
+        if component.properties.latitudeColumnName!='' and component.properties.latitudeColumnName not in field_names:
             diagnostics.append(
                 Diagnostic("component.properties.latitudeColumnName", f"Selected latitude column {component.properties.latitudeColumnName} is not present in input schema.", SeverityLevelEnum.Error)
             )
@@ -172,7 +172,7 @@ class PolyBuild(MacroSpec):
         table_name: str = ",".join(str(rel) for rel in props.relation_name)
 
         arguments = [
-            str(props.table_name),
+            "'" + table_name + "'",
             "'" + props.buildMethod + "'",
             "'" + props.longitudeColumnName + "'",
             "'" + props.latitudeColumnName + "'",
