@@ -49,6 +49,17 @@ sqlMacros:
       - macros/macros.yml
       - gems/CreatePoint.py
     createdAt: '2025-04-10 05:01:34'
+  .prophecy/metadata/sqlmacros/HeatMap:
+    name: HeatMap
+    macroType: query
+    description: null
+    author: debashis.adak@prophecy.io
+    files:
+      - macros/HeatMap.sql
+      - .prophecy/ide/macros/HeatMap.json
+      - macros/macros.yml
+      - gems/HeatMap.py
+    createdAt: '2025-04-10 05:01:34'
 sqlSeeds: {}
 sqlSources: {}
 sqlUnreferencedSources: {}
