@@ -129,6 +129,8 @@ class HeatMap(MacroSpec):
                                 "- **Resolution**: H3 resolution controls how big each hexagon is — lower resolutions mean bigger hexes (like countries), higher resolutions mean smaller hexes (like street, buildings etc)"
                                 "\n"
                                 "- **Grid Distance**: Defines the number of hexagon steps away from the center to generate surronding hexagons"
+                                "\n"
+                                "- **Decay Function**: Determines how heat fades with distance: constant applies equal weight to all neighbors, linear reduces weight linearly with distance, and exponential halves the weight with each step away"
                             )
                         ]
                     )
