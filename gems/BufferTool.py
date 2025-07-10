@@ -6,7 +6,7 @@ from prophecy.cb.ui.uispec import *
 
 class BufferTool(MacroSpec):
     name: str = "BufferTool"
-    projectName: str = "andre_spatial_07"
+    projectName: str = "Andre_SQL_Project"
     category: str = "Spatial"
     minNumOfInputPorts: int = 1
     
