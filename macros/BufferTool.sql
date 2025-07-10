@@ -4,23 +4,22 @@
   {{ log("polygonColumnName=" ~ polygonColumnName, info=True) }}
   {{ log("distance=" ~ distance, info=True) }}
   {{ log("unit=" ~ unit, info=True) }}
+
 SELECT
- ST_AsText(
-  ST_Transform(
-   ST_Buffer(
+  {{polygonColumnName}} as input,
+  ST_AsText(
     ST_Transform(
-     ST_GeomFromText(
-      {{polygonColumnName}},
+      ST_Buffer(
+        ST_Transform(
+          ST_GeomFromText({{polygonColumnName}}, 4326),
+          3857
+        ),
+        {{distance}}
+      ),
       4326
-     ),
-     3857
-    ),
-    {{distance}}
-   ),
-   4326
-  )
- ) as output
+    )
+  ) as output
 FROM
- {{table_name}}
+  {{table_name}}
 
 {%- endmacro -%}
