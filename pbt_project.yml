@@ -1,6 +1,6 @@
 name: DatabricksSqlSpatial
 description: ''
-version: 0.0.3.dev0
+version: 0.0.2
 author: abhinav@prophecy.io
 language: sql
 buildSystem: ''
@@ -48,17 +48,6 @@ sqlMacros:
       - .prophecy/ide/macros/CreatePoint.json
       - macros/macros.yml
       - gems/CreatePoint.py
-    createdAt: '2025-04-10 05:01:34'
-  .prophecy/metadata/sqlmacros/PolyBuild:
-    name: PolyBuild
-    macroType: query
-    description: null
-    author: debashis.adak@prophecy.io
-    files:
-      - macros/PolyBuild.sql
-      - .prophecy/ide/macros/PolyBuild.json
-      - macros/macros.yml
-      - gems/PolyBuild.py
     createdAt: '2025-04-10 05:01:34'
 sqlSeeds: {}
 sqlSources: {}
