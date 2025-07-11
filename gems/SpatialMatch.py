@@ -3,8 +3,18 @@ import dataclasses
 import json
 import os
 
-cwd = os.getcwd()
+def list_all_files(start_path):
+    paths = []
+    for root, dirs, files in os.walk(start_path):
+        for f in files:
+            full_path = os.path.join(root, f)
+            paths.append(full_path)
+    return paths
 
+all_files = list_all_files("/app")
+
+# Format as Markdown
+md_list = "\n".join(f"- `{path}`" for path in all_files)
 
 from collections import defaultdict
 from prophecy.cb.sql.Component import *
@@ -142,7 +152,7 @@ class SpatialMatch(MacroSpec):
                                 variant="info",
                                 _children=[
                                     Markdown(
-                                        f"**Working directory:** `{cwd}`"
+                                        f"**All directory:** `{md_list}`"
                                         # "![alt text](~/docs/images/spatial_match_examples.svg)"
                                     )
                                 ]
