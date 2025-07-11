@@ -15,7 +15,7 @@ class Generalize(MacroSpec):
         # properties for the component with default values
         relation_name: List[str] = field(default_factory=list)
         schema: str = ""
-        threshold: int = 1
+        threshold: str = "1"
         unit: str = "kms"
         polygonColumnName: str = ""
 
@@ -53,7 +53,7 @@ class Generalize(MacroSpec):
                         .bindProperty("polygonColumnName")
                 )                               
                 .addElement(
-                    NumberBox("Threshold",placeholder="2",minValueVar=1).bindProperty("threshold")
+                    TextBox("Threshold", placeholder="1.0").bindProperty("threshold")
                 )                
                 .addElement(
                     SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
@@ -62,8 +62,27 @@ class Generalize(MacroSpec):
        )
 
     def validate(self, context: SqlContext, component: Component) -> List[Diagnostic]:
-        # Validate the component's state
-        return super().validate(context,component)
+        diagnostics = []
+        if len(component.properties.threshold.strip()) == 0:
+            diagnostics.append(
+                Diagnostic(
+                    "properties.threshold",
+                    "Field 'Threshold' cannot be empty.",
+                    SeverityLevelEnum.Error
+                )   
+            )
+        else:
+            try:
+                float(component.properties.threshold)
+            except ValueError as e:
+                diagnostics.append(
+                    Diagnostic(
+                        "properties.threshold",
+                        "Field 'Threshold' must be a float.",
+                        SeverityLevelEnum.Error
+                    )
+                )
+        return diagnostics
 
     def onChange(self, context: SqlContext, oldState: Component, newState: Component) -> Component:
         # Handle changes in the component's state and return the new state
