@@ -4,14 +4,14 @@ import json
 from prophecy.cb.sql.MacroBuilderBase import *
 from prophecy.cb.ui.uispec import *
 
-class GeneralizeTool(MacroSpec):
-    name: str = "GeneralizeTool"
+class Generalize(MacroSpec):
+    name: str = "Generalize"
     projectName: str = "Andre_SQL_Project"
     category: str = "Spatial"
     minNumOfInputPorts: int = 1
     
     @dataclass(frozen=True)
-    class GeneralizeToolProperties(MacroProperties):
+    class GeneralizeProperties(MacroProperties):
         # properties for the component with default values
         relation_name: List[str] = field(default_factory=list)
         schema: str = ""
@@ -39,7 +39,7 @@ class GeneralizeTool(MacroSpec):
         return relation_name
 
     def dialog(self) -> Dialog:
-        return Dialog("GeneralizeTool").addElement(
+        return Dialog("Generalize").addElement(
             ColumnsLayout(gap="1rem", height="100%")
             .addColumn(
                 Ports(allowInputAddOrDelete=True),
@@ -78,7 +78,7 @@ class GeneralizeTool(MacroSpec):
         )
         return newState.bindProperties(newProperties)
 
-    def apply(self, props: GeneralizeToolProperties) -> str:
+    def apply(self, props: GeneralizeProperties) -> str:
         # Get the table name
         table_name: str = ",".join(str(rel) for rel in props.relation_name)
 
@@ -100,7 +100,7 @@ class GeneralizeTool(MacroSpec):
     def loadProperties(self, properties: MacroProperties) -> PropertiesType:
         # load the component's state given default macro property representation
         parametersMap = self.convertToParameterMap(properties.parameters)
-        return GeneralizeTool.GeneralizeToolProperties(
+        return Generalize.GeneralizeProperties(
             relation_name=parametersMap.get('relation_name'),
             schema=parametersMap.get('schema'),
             polygonColumnName=parametersMap.get('polygonColumnName'),
