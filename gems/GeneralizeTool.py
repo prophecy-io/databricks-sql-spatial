@@ -48,7 +48,7 @@ class GeneralizeTool(MacroSpec):
             .addColumn(
                 StackLayout()
                 .addElement(
-                    SchemaColumnsDropdown("Polygon Column Input")
+                    SchemaColumnsDropdown("Geometry column (WKT format)")
                         .bindSchema("component.ports.inputs[0].schema")
                         .bindProperty("polygonColumnName")
                 )                               

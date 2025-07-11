@@ -6,6 +6,7 @@
     {{ log("unit=" ~ unit, info=True) }}
 
     select
+      {{polygonColumnName}} as input,
     andre_dev.alteryx_spatial.generalize({{polygonColumnName}}, {{threshold}}, True) as output
-    from {{ table_name }}
+      from {{ table_name }}
 {%- endmacro -%}
