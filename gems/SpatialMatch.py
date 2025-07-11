@@ -138,7 +138,7 @@ class SpatialMatch(MacroSpec):
                                 variant="info",
                                 _children=[
                                     Markdown(
-                                        "![alt text](docs/images/spatial_match_examples.svg)"
+                                        "![alt text](~/docs/images/spatial_match_examples.svg)"
                                     )
                                 ]
                             )
