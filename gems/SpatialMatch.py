@@ -138,7 +138,7 @@ class SpatialMatch(MacroSpec):
                                 variant="info",
                                 _children=[
                                     Markdown(
-                                        "![alt text](https://cdn.prod.website-files.com/63e3db0853d16fd219ecdb33/6410c12087e0984729244c1a_Prophecy%20Dark%20Logo.svg)"
+                                        "![alt text](docs/images/spatial_match_examples.svg)"
                                     )
                                 ]
                             )
