@@ -137,7 +137,7 @@ class SpatialMatch(MacroSpec):
                                             .addOption("Source Within Target", "within")
                                             .addOption("Source Touches Target", "touches")
                                             .addOption("Source Touches or Intersects Target", "touches_or_intersects")
-                                            .addOption("Source Envelope Overlaps Target Envelope", "envelope")
+                                            .addOption("Source Envelope Intersects Target Envelope", "envelope")
                                             .bindProperty("match_type")
                                         )
                                     )
