@@ -1,6 +1,10 @@
 from dataclasses import dataclass
 import dataclasses
 import json
+import os
+
+cwd = os.getcwd()
+
 
 from collections import defaultdict
 from prophecy.cb.sql.Component import *
@@ -138,7 +142,8 @@ class SpatialMatch(MacroSpec):
                                 variant="info",
                                 _children=[
                                     Markdown(
-                                        "![alt text](~/docs/images/spatial_match_examples.svg)"
+                                        f"**Working directory:** `{cwd}`"
+                                        # "![alt text](~/docs/images/spatial_match_examples.svg)"
                                     )
                                 ]
                             )
