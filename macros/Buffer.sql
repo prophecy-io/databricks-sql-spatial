@@ -1,7 +1,7 @@
-{%- macro Buffer(table_name,schema,polygonColumnName,distance,unit) -%}
+{%- macro Buffer(table_name, schema, geometryColumnName, distance,unit) -%}
   {{ log("table_name=" ~ table_name, info=True) }}
   {{ log("schema=" ~ schema, info=True) }}
-  {{ log("polygonColumnName=" ~ polygonColumnName, info=True) }}
+  {{ log("geometryColumnName=" ~ geometryColumnName, info=True) }}
   {{ log("distance=" ~ distance, info=True) }}
   {{ log("unit=" ~ unit, info=True) }}
 
@@ -12,12 +12,12 @@
   {%- endif -%}
 
   SELECT
-    {{polygonColumnName}} as input,
+    {{geometryColumnName}} as input,
     ST_AsText(
       ST_Transform(
         ST_Buffer(
           ST_Transform(
-            ST_GeomFromText({{polygonColumnName}}, 4326),
+            ST_GeomFromText({{geometryColumnName}}, 4326),
             3857
           ),
           {{distance_meters}}
