@@ -18,6 +18,7 @@ class SpatialInfo(MacroSpec):
         distance: int = 1
         unit: str = "miles"
         geometryColumnName: str = ""
+        area: bool = False
         
 
     def get_relation_names(self, component: Component, context: SqlContext):
@@ -54,12 +55,7 @@ class SpatialInfo(MacroSpec):
                         .bindSchema("component.ports.inputs[0].schema")
                         .bindProperty("geometryColumnName")
                 )                               
-                .addElement(
-                    NumberBox("Distance",placeholder="10").bindProperty("distance")
-                )                
-                .addElement(
-                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
-                )  
+                .addElement(Checkbox("Area").bindProperty("area"))
                 .addElement(
                    AlertBox(
                        variant="warning",
@@ -101,8 +97,7 @@ class SpatialInfo(MacroSpec):
             f"'{table_name}'",   
             props.schema,
             f"'{props.geometryColumnName}'",            
-            str(props.distance),
-            f"'{props.unit}'"
+            str(props.area),
         ]
 
         params = ",".join([param for param in arguments])
@@ -116,8 +111,7 @@ class SpatialInfo(MacroSpec):
             relation_name=parametersMap.get('relation_name'),
             schema=parametersMap.get('schema'),
             geometryColumnName=parametersMap.get('geometryColumnName'),
-            distance=int(parametersMap.get('distance')),
-            unit=str(parametersMap.get('unit'))
+            distance=int(parametersMap.get('area')),
         )
 
     def unloadProperties(self, properties: PropertiesType) -> MacroProperties:
@@ -129,8 +123,7 @@ class SpatialInfo(MacroSpec):
                 MacroParameter("relation_name", str(properties.relation_name)),
                 MacroParameter("schema", str(properties.schema)),
                 MacroParameter("destinationColumnNames", properties.geometryColumnName),
-                MacroParameter("distance", str(properties.distance)),
-                MacroParameter("unit", properties.unit)
+                MacroParameter("area", str(properties.distance)),
             ]
         )
 
