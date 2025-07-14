@@ -60,6 +60,28 @@ sqlMacros:
       - macros/macros.yml
       - gems/HeatMap.py
     createdAt: '2025-04-10 05:01:34'
+  .prophecy/metadata/sqlmacros/PolyBuild:
+    name: PolyBuild
+    macroType: query
+    description: null
+    author: debashis.adak@prophecy.io
+    files:
+      - macros/PolyBuild.sql
+      - .prophecy/ide/macros/PolyBuild.json
+      - macros/macros.yml
+      - gems/PolyBuild.py
+    createdAt: '2025-04-10 05:01:34'
+  .prophecy/metadata/sqlmacros/FindNearest:
+    name: FindNearest
+    macroType: query
+    description: null
+    author: adak.debashis@prophecy.io
+    files:
+      - macros/FindNearest.sql
+      - .prophecy/ide/macros/FindNearest.json
+      - macros/macros.yml
+      - gems/FindNearest.py
+    createdAt: '2025-06-03 05:01:34'
 sqlSeeds: {}
 sqlSources: {}
 sqlUnreferencedSources: {}
