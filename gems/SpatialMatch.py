@@ -127,8 +127,7 @@ class SpatialMatch(MacroSpec):
                                 variant="info",
                                 _children=[
                                     Markdown(
-                                        # TODO Update with actual image link
-                                        "![alt text](~/docs/images/spatial_match_examples.svg)"
+                                        "![alt text](https://docs.prophecy.io/img/spatial/match-types.jpg)"
                                     )
                                 ]
                             )
