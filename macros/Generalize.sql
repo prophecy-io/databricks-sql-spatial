@@ -1,18 +1,31 @@
-{%- macro Generalize(table_name, schema, polygonColumnName, threshold, unit) -%}
-    {{ log("table_name=" ~ table_name, info=True) }}
-    {{ log("schema=" ~ schema, info=True) }}
-    {{ log("polygonColumnName=" ~ polygonColumnName, info=True) }}
-    {{ log("threshold=" ~ threshold, info=True) }}
-    {{ log("unit=" ~ unit, info=True) }}
+{%- macro Generalize(table_name, schema, geom_column_name, tolerance, unit) -%}
+  {{ log("table_name=" ~ table_name, info=True) }}
+  {{ log("schema=" ~ schema, info=True) }}
+  {{ log("geom_column_name=" ~ geom_column_name, info=True) }}
+  {{ log("tolerance=" ~ tolerance, info=True) }}
+  {{ log("unit=" ~ unit, info=True) }}
 
-    SELECT 
-      {{polygonColumnName}} as input,
-      ST_AsText(
-          ST_Simplify(
-            ST_GeomFromText({{polygonColumnName}}), 
-            {{threshold}}
-          ) 
-      ) as output
-    FROM 
-      {{table_name}}
+  {%- if unit == 'kilometers' -%}
+    {%- set tolerance_meters = tolerance * 1000 -%}
+  {%- else -%}
+    {%- set tolerance_meters = tolerance * 1609.34 -%}
+  {%- endif -%}
+
+  SELECT
+    {{geom_column_name}} as input,
+    ST_AsText(
+      ST_Transform(
+        ST_Simplify(
+          ST_Transform(
+            ST_GeomFromText({{geom_column_name}}, 4326),
+            3857
+          ),
+          {{tolerance_meters}}
+        ),
+        4326
+      )
+    ) as output
+  FROM
+    {{table_name}}
+
 {%- endmacro -%}
