@@ -1,6 +1,6 @@
 name: DatabricksSqlSpatial
 description: ''
-version: 0.0.3.dev1
+version: 0.0.3.dev2
 author: abhinav@prophecy.io
 language: sql
 buildSystem: ''
@@ -104,6 +104,17 @@ sqlMacros:
       - macros/macros.yml
       - gems/Buffer.py
     createdAt: '2025-06-03 05:01:34'
+  .prophecy/metadata/sqlmacros/SpatialMatch:
+    name: SpatialMatch
+    macroType: query
+    description: null
+    author: tree.connor@prophecy.io
+    files:
+      - macros/SpatialMatch.sql
+      - .prophecy/ide/macros/SpatialMatch.json
+      - macros/macros.yml
+      - gems/SpatialMatch.py
+    createdAt: '2025-07-16 05:01:34'
 sqlSeeds: {}
 sqlSources: {}
 sqlUnreferencedSources: {}
