@@ -137,7 +137,7 @@ class SpatialMatch(MacroSpec):
                                 variant="success",
                                 _children=[
                                     Markdown(
-                                        "This gem requires that the Source Column and Destination Column contain geometric values in Well-Known Text (WKT) format. To convert longitude and latitude coordinates into WKT format, use the [CreatePoint gem](https://docs.prophecy.io/analysts/create-point/) for points and the [PolyBuild gem](https://docs.prophecy.io/analysts/polybuild/) for polygons and lines.\n\n"
+                                        "This gem requires that the Source column and Destination column contain geometric values in Well-Known Text (WKT) format. To convert longitude and latitude coordinates into WKT format, use the [CreatePoint gem](https://docs.prophecy.io/analysts/create-point/) for points and the [PolyBuild gem](https://docs.prophecy.io/analysts/polybuild/) for polygons and lines.\n\n"
                                         "Example: If your table has columns like `source_longitude`, `source_latitude`, `target_longitude`, and `target_latitude`, first use the CreatePoint Gem to generate `source_geopoint` and `target_geopoint` columns in WKT format."
                                     )
                                 ]
