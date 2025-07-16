@@ -6,7 +6,7 @@ from prophecy.cb.ui.uispec import *
 
 class Generalize(MacroSpec):
     name: str = "Generalize"
-    projectName: str = "Andre_SQL_Project"
+    projectName: str = "DatabricksSqlSpatial"
     category: str = "Spatial"
     minNumOfInputPorts: int = 1
     
