@@ -1,10 +1,10 @@
 
 from setuptools import setup, find_packages
 setup(
-    name = 'DatabricksSqlBasics',
+    name = 'DatabricksSqlSpatial',
     version = '0.0.3.dev3',
-    packages = ['DatabricksSqlBasics'],
-    package_dir = {'DatabricksSqlBasics': '.'},
+    packages = ['DatabricksSqlSpatial'],
+    package_dir = {'DatabricksSqlSpatial': '.'},
     description = '',
     install_requires = [],
 )
