@@ -137,10 +137,8 @@ class SpatialMatch(MacroSpec):
                                 variant="success",
                                 _children=[
                                     Markdown(
-                                        "**Things to consider** \n\n"
-                                        "* **Source Column & Target Column** requires fields to be present in **WKT(well-known-text)** format \n\n"
-                                        "* Use the **CreatePoint** Gem to convert **longitude** and **latitude** column pairs into **WKT (Well-Known Text) format** for easy geospatial processing \n\n"
-                                        "* **Example**: If your table has columns like **from_longitude**, **from_latitude**, **to_longitude**, and **to_latitude**, first use the **CreatePoint Gem** to generate **from_geo_point** and **to_geo_point** in WKT format.\n\n"
+                                        "This gem requires that the Source Column and Destination Column contain geometric values in Well-Known Text (WKT) format. To convert longitude and latitude coordinates into WKT format, use the [CreatePoint gem](https://docs.prophecy.io/analysts/create-point/) for points and the [PolyBuild gem](https://docs.prophecy.io/analysts/polybuild/) for polygons and lines.\n\n"
+                                        "Example: If your table has columns like `source_longitude`, `source_latitude`, `target_longitude`, and `target_latitude`, first use the CreatePoint Gem to generate `source_geopoint` and `target_geopoint` columns in WKT format."
                                     )
                                 ]
                             )
