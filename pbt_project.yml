@@ -1,6 +1,6 @@
 name: DatabricksSqlSpatial
 description: ''
-version: 0.0.3.dev0
+version: 0.0.3.dev1
 author: abhinav@prophecy.io
 language: sql
 buildSystem: ''
@@ -81,6 +81,28 @@ sqlMacros:
       - .prophecy/ide/macros/FindNearest.json
       - macros/macros.yml
       - gems/FindNearest.py
+    createdAt: '2025-06-03 05:01:34'
+  .prophecy/metadata/sqlmacros/Generalize:
+    name: Generalize
+    macroType: query
+    description: null
+    author: adak.debashis@prophecy.io
+    files:
+      - macros/Generalize.sql
+      - .prophecy/ide/macros/Generalize.json
+      - macros/macros.yml
+      - gems/Generalize.py
+    createdAt: '2025-06-03 05:01:34'
+  .prophecy/metadata/sqlmacros/Buffer:
+    name: Buffer
+    macroType: query
+    description: null
+    author: adak.debashis@prophecy.io
+    files:
+      - macros/Buffer.sql
+      - .prophecy/ide/macros/Buffer.json
+      - macros/macros.yml
+      - gems/Buffer.py
     createdAt: '2025-06-03 05:01:34'
 sqlSeeds: {}
 sqlSources: {}
