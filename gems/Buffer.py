@@ -50,17 +50,6 @@ class Buffer(MacroSpec):
             .addColumn(
                 StackLayout()
                 .addElement(
-                    SchemaColumnsDropdown("Geometry column")
-                        .bindSchema("component.ports.inputs[0].schema")
-                        .bindProperty("geometryColumnName")
-                )                               
-                .addElement(
-                    NumberBox("Distance",placeholder="10").bindProperty("distance")
-                )                
-                .addElement(
-                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
-                )  
-                .addElement(
                    AlertBox(
                        variant="warning",
                        _children=[
@@ -70,6 +59,17 @@ class Buffer(MacroSpec):
                             )
                        ]
                    )   
+                )  
+                .addElement(
+                    SchemaColumnsDropdown("Geometry column")
+                        .bindSchema("component.ports.inputs[0].schema")
+                        .bindProperty("geometryColumnName")
+                )                               
+                .addElement(
+                    NumberBox("Distance",placeholder="10").bindProperty("distance")
+                )                
+                .addElement(
+                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
                 )  
        ))
 
