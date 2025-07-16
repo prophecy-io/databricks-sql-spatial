@@ -141,10 +141,8 @@ class FindNearest(MacroSpec):
                         variant="success",
                         _children=[
                             Markdown(
-                                "**Things to consider** \n\n"
-                                "* **Source Centroid Column & Target Centroid Column** requires fields to be present in **WKT(well-known-text)** format \n\n"
-                                "* Use the **CreatePoint** Gem to convert **longitude** and **latitude** column pairs into **WKT (Well-Known Text) format** for easy geospatial processing \n\n"
-                                "* **Example**: If your table has columns like **from_longitude**, **from_latitude**, **to_longitude**, and **to_latitude**, first use the **CreatePoint Gem** to generate **from_geo_point** and **to_geo_point** in WKT format. Then use the **Find Nearest Gem** to find the nearest.\n\n"
+                                "This gem requires that the Source Column and Destination Column contain geometric values in Well-Known Text (WKT) format. To convert longitude and latitude coordinates into WKT format, use the [CreatePoint gem](https://docs.prophecy.io/analysts/create-point/).\n\n"
+                                "Example: If your table has columns like `source_longitude`, `source_latitude`, `target_longitude`, and `target_latitude`, first use the CreatePoint Gem to generate `source_geopoint` and `target_geopoint` columns in WKT format."
                             )
                         ]
                     )
