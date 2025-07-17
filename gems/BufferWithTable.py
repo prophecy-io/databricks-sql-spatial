@@ -103,11 +103,11 @@ class BufferWithTable(MacroSpec):
         # generate the actual macro call given the component's
         resolved_macro_name = f"{self.projectName}.{self.name}"
 
-#             f"'{props.distance_column_name}'",            
         arguments = [
             f"'{table_name}'",   
             props.schema,
-            f"'{props.geom_column_name}'",            
+            f"'{props.geom_column_name}'",
+            f"'{props.distance_column_name}'",            
             str(props.distance),
             f"'{props.unit}'"
         ]
@@ -136,7 +136,8 @@ class BufferWithTable(MacroSpec):
             parameters=[
                 MacroParameter("relation_name", str(properties.relation_name)),
                 MacroParameter("schema", str(properties.schema)),
-                MacroParameter("destinationColumnNames", properties.geom_column_name),
+                MacroParameter("geom_column_name", properties.geom_column_name),
+                MacroParameter("distance_column_name", properties.distance_column_name),
                 MacroParameter("distance", str(properties.distance)),
                 MacroParameter("unit", properties.unit)
             ]

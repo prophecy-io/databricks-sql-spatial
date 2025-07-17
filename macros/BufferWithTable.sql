@@ -1,7 +1,8 @@
-{%- macro BufferWithTable(table_name, schema, geom_column_name, distance, unit) -%}
+{%- macro BufferWithTable(table_name, schema, geom_column_name, distance_column_name, distance, unit) -%}
   {{ log("table_name=" ~ table_name, info=True) }}
   {{ log("schema=" ~ schema, info=True) }}
   {{ log("geom_column_name=" ~ geom_column_name, info=True) }}
+  {{ log("distance_column_name=" ~ distance_column_name, info=True) }}
   {{ log("distance=" ~ distance, info=True) }}
   {{ log("unit=" ~ unit, info=True) }}
 
