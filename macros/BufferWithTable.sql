@@ -8,8 +8,10 @@
 
   {%- if unit == 'kilometers' -%}
     {%- set distance_meters = distance * 1000 -%}
+    {%- set distance_unit = 1000 -%}
   {%- else -%}
     {%- set distance_meters = distance * 1609.34 -%}
+    {%- set distance_unit = 1609.34  -%}
   {%- endif -%}
 
   SELECT
@@ -21,7 +23,7 @@
             ST_GeomFromText({{geom_column_name}}, 4326),
             3857
           ),
-          {{distance_meters}}
+          {{distance_column_name}} * {{distance_unit}}
         ),
         4326
       )
