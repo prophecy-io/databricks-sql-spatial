@@ -6,8 +6,7 @@ from prophecy.cb.ui.uispec import *
 
 class Simplify(MacroSpec):
     name: str = "Simplify"
-    projectName: str = "Andre_SQL_Project"
-    ##projectName: str = "DatabricksSqlSpatial"
+    projectName: str = "DatabricksSqlSpatial"
     category: str = "Spatial"
     minNumOfInputPorts: int = 1
     
@@ -18,7 +17,7 @@ class Simplify(MacroSpec):
         schema: str = ""
         tolerance: str = "1"
         unit: str = "kms"
-        polygonColumnName: str = ""
+        geom_column_name: str = ""
 
     def get_relation_names(self, component: Component, context: SqlContext):
         all_upstream_nodes = []
@@ -62,7 +61,7 @@ class Simplify(MacroSpec):
                 .addElement(
                     SchemaColumnsDropdown("Geometry column (WKT format)")
                         .bindSchema("component.ports.inputs[0].schema")
-                        .bindProperty("polygonColumnName")
+                        .bindProperty("geom_column_name")
                 )                               
                 .addElement(
                     TextBox("Tolerance", placeholder="1.0").bindProperty("tolerance")
@@ -119,7 +118,7 @@ class Simplify(MacroSpec):
         arguments = [
             "'" + table_name + "'",
             props.schema,
-            "'" + props.polygonColumnName + "'",            
+            "'" + props.geom_column_name + "'",            
             str(props.tolerance),
             "'" + props.unit + "'"
         ]
@@ -134,7 +133,7 @@ class Simplify(MacroSpec):
         return Simplify.SimplifyProperties(
             relation_name=parametersMap.get('relation_name'),
             schema=parametersMap.get('schema'),
-            polygonColumnName=parametersMap.get('polygonColumnName'),
+            geom_column_name=parametersMap.get('geom_column_name'),
             tolerance=int(parametersMap.get('tolerance')),
             unit=str(parametersMap.get('unit'))
         )
@@ -147,7 +146,7 @@ class Simplify(MacroSpec):
             parameters=[
                 MacroParameter("relation_name", str(properties.relation_name)),
                 MacroParameter("schema", str(properties.schema)),
-                MacroParameter("destinationColumnNames", properties.polygonColumnName),
+                MacroParameter("destinationColumnNames", properties.geom_column_name),
                 MacroParameter("tolerance", str(properties.tolerance)),
                 MacroParameter("unit", properties.unit)
             ],
