@@ -4,20 +4,20 @@ import json
 from prophecy.cb.sql.MacroBuilderBase import *
 from prophecy.cb.ui.uispec import *
 
-class Generalize(MacroSpec):
-    name: str = "Generalize"
+class Simplify(MacroSpec):
+    name: str = "Simplify"
     projectName: str = "DatabricksSqlSpatial"
     category: str = "Spatial"
     minNumOfInputPorts: int = 1
     
     @dataclass(frozen=True)
-    class GeneralizeProperties(MacroProperties):
+    class SimplifyProperties(MacroProperties):
         # properties for the component with default values
         relation_name: List[str] = field(default_factory=list)
         schema: str = ""
-        threshold: str = "1"
+        tolerance: str = "1"
         unit: str = "kms"
-        polygonColumnName: str = ""
+        geom_column_name: str = ""
 
     def get_relation_names(self, component: Component, context: SqlContext):
         all_upstream_nodes = []
@@ -39,7 +39,7 @@ class Generalize(MacroSpec):
         return relation_name
 
     def dialog(self) -> Dialog:
-        return Dialog("Generalize").addElement(
+        return Dialog("Simplify").addElement(
             ColumnsLayout(gap="1rem", height="100%")
             .addColumn(
                 Ports(allowInputAddOrDelete=True),
@@ -61,10 +61,10 @@ class Generalize(MacroSpec):
                 .addElement(
                     SchemaColumnsDropdown("Geometry column (WKT format)")
                         .bindSchema("component.ports.inputs[0].schema")
-                        .bindProperty("polygonColumnName")
+                        .bindProperty("geom_column_name")
                 )                               
                 .addElement(
-                    TextBox("Threshold", placeholder="1.0").bindProperty("threshold")
+                    TextBox("Tolerance", placeholder="1.0").bindProperty("tolerance")
                 )                
                 .addElement(
                     SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
@@ -74,22 +74,22 @@ class Generalize(MacroSpec):
 
     def validate(self, context: SqlContext, component: Component) -> List[Diagnostic]:
         diagnostics = []
-        if len(component.properties.threshold.strip()) == 0:
+        if len(component.properties.tolerance.strip()) == 0:
             diagnostics.append(
                 Diagnostic(
-                    "properties.threshold",
-                    "Field 'Threshold' cannot be empty.",
+                    "properties.tolerance",
+                    "Field 'Tolerance' cannot be empty.",
                     SeverityLevelEnum.Error
                 )   
             )
         else:
             try:
-                float(component.properties.threshold)
+                float(component.properties.tolerance)
             except ValueError as e:
                 diagnostics.append(
                     Diagnostic(
-                        "properties.threshold",
-                        "Field 'Threshold' must be a float.",
+                        "properties.tolerance",
+                        "Field 'Tolerance' must be a float.",
                         SeverityLevelEnum.Error
                     )
                 )
@@ -108,7 +108,7 @@ class Generalize(MacroSpec):
         )
         return newState.bindProperties(newProperties)
 
-    def apply(self, props: GeneralizeProperties) -> str:
+    def apply(self, props: SimplifyProperties) -> str:
         # Get the table name
         table_name: str = ",".join(str(rel) for rel in props.relation_name)
 
@@ -118,8 +118,8 @@ class Generalize(MacroSpec):
         arguments = [
             "'" + table_name + "'",
             props.schema,
-            "'" + props.polygonColumnName + "'",            
-            str(props.threshold),
+            "'" + props.geom_column_name + "'",            
+            str(props.tolerance),
             "'" + props.unit + "'"
         ]
 
@@ -130,11 +130,11 @@ class Generalize(MacroSpec):
     def loadProperties(self, properties: MacroProperties) -> PropertiesType:
         # load the component's state given default macro property representation
         parametersMap = self.convertToParameterMap(properties.parameters)
-        return Generalize.GeneralizeProperties(
+        return Simplify.SimplifyProperties(
             relation_name=parametersMap.get('relation_name'),
             schema=parametersMap.get('schema'),
-            polygonColumnName=parametersMap.get('polygonColumnName'),
-            threshold=int(parametersMap.get('threshold')),
+            geom_column_name=parametersMap.get('geom_column_name'),
+            tolerance=int(parametersMap.get('tolerance')),
             unit=str(parametersMap.get('unit'))
         )
 
@@ -146,8 +146,8 @@ class Generalize(MacroSpec):
             parameters=[
                 MacroParameter("relation_name", str(properties.relation_name)),
                 MacroParameter("schema", str(properties.schema)),
-                MacroParameter("destinationColumnNames", properties.polygonColumnName),
-                MacroParameter("threshold", str(properties.threshold)),
+                MacroParameter("destinationColumnNames", properties.geom_column_name),
+                MacroParameter("tolerance", str(properties.tolerance)),
                 MacroParameter("unit", properties.unit)
             ],
         )

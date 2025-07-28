@@ -123,7 +123,7 @@ macros:
     type: "value"
     description: "{\"ProphecyType\": \"value\"}"
   macroType: "query"
-- name: "Generalize"
+- name: "Simplify"
   arguments:
     - name: "table_name"
       type: "value"

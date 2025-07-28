@@ -1,4 +1,4 @@
-{%- macro Generalize(table_name, schema, geom_column_name, tolerance, unit) -%}
+{%- macro Simplify(table_name, schema, geom_column_name, tolerance, unit) -%}
   {{ log("table_name=" ~ table_name, info=True) }}
   {{ log("schema=" ~ schema, info=True) }}
   {{ log("geom_column_name=" ~ geom_column_name, info=True) }}
