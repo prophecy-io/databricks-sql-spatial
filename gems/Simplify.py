@@ -17,7 +17,8 @@ class Simplify(MacroSpec):
         schema: str = ""
         tolerance: str = "1"
         unit: str = "kms"
-        geom_column_name: str = ""
+        geometryColumnName: str = ""
+        outputColumnName: str = ""
 
     def get_relation_names(self, component: Component, context: SqlContext):
         all_upstream_nodes = []
@@ -61,19 +62,30 @@ class Simplify(MacroSpec):
                 .addElement(
                     SchemaColumnsDropdown("Geometry column (WKT format)")
                         .bindSchema("component.ports.inputs[0].schema")
-                        .bindProperty("geom_column_name")
+                        .bindProperty("geometryColumnName")
                 )                               
+                .addElement( 
+                    TextBox("Output column", placeholder="Output column").bindProperty("outputColumnName")
+                )   
                 .addElement(
                     TextBox("Tolerance", placeholder="1.0").bindProperty("tolerance")
                 )                
                 .addElement(
-                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
+                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").addOption("Meters", "meters").bindProperty("unit")
                 )                                
            )
        )
 
     def validate(self, context: SqlContext, component: Component) -> List[Diagnostic]:
         diagnostics = []
+        if len(component.properties.outputColumnName.strip()) == 0:
+            diagnostics.append(
+                Diagnostic(
+                    "properties.outputColumnName",
+                    "Field 'Output column' cannot be empty.",
+                    SeverityLevelEnum.Error
+                )
+            )
         if len(component.properties.tolerance.strip()) == 0:
             diagnostics.append(
                 Diagnostic(
@@ -114,13 +126,14 @@ class Simplify(MacroSpec):
 
         # generate the actual macro call given the component's
         resolved_macro_name = f"{self.projectName}.{self.name}"
-
+   
         arguments = [
-            "'" + table_name + "'",
+            f"'{table_name}'",
             props.schema,
-            "'" + props.geom_column_name + "'",            
+            f"'{props.geometryColumnName}'",
+            f"'{props.outputColumnName}'",
             str(props.tolerance),
-            "'" + props.unit + "'"
+            f"'{props.unit}'"
         ]
 
         params = ",".join([param for param in arguments])
@@ -133,7 +146,8 @@ class Simplify(MacroSpec):
         return Simplify.SimplifyProperties(
             relation_name=parametersMap.get('relation_name'),
             schema=parametersMap.get('schema'),
-            geom_column_name=parametersMap.get('geom_column_name'),
+            geometryColumnName=parametersMap.get('geometryColumnName'),
+            outputColumnName=str(parametersMap.get('outputColumnName')),
             tolerance=int(parametersMap.get('tolerance')),
             unit=str(parametersMap.get('unit'))
         )
@@ -146,7 +160,8 @@ class Simplify(MacroSpec):
             parameters=[
                 MacroParameter("relation_name", str(properties.relation_name)),
                 MacroParameter("schema", str(properties.schema)),
-                MacroParameter("destinationColumnNames", properties.geom_column_name),
+                MacroParameter("geometryColumnName", properties.geometryColumnName),
+                MacroParameter("outputColumnName", properties.outputColumnName),
                 MacroParameter("tolerance", str(properties.tolerance)),
                 MacroParameter("unit", properties.unit)
             ],
