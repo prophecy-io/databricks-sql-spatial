@@ -76,7 +76,7 @@
 
     WITH
     _src AS (
-      SELECT {{ src_cols_no_alias_str }}
+      SELECT UUID() AS s_rowid, {{ src_cols_no_alias_str }}
       FROM `{{ relation_names[0] }}`
     ),
     _dst AS (
@@ -86,6 +86,7 @@
 
     cross_pts AS (
       SELECT
+        s_rowid,
         {{ src_select_str }}{% if src_select_str and tgt_select_str %}, {% endif %}{{ tgt_select_str }},
         s.`{{ sourceColumnName }}`   AS src_point,
         d.`{{ destinationColumnName }}` AS dst_point
@@ -152,13 +153,17 @@
       SELECT
         *,
         ROW_NUMBER() OVER (
-          PARTITION BY lat1, lon1
+          PARTITION BY s_rowid
           ORDER BY {{ distance_col }} ASC
         ) AS rn
       FROM distances
       WHERE
+        {%- if maxDistance == 0 %}
+        1=1
+        {%- else %}
         {{ distance_col }} <= {{ maxDistance }}
-        {%- if ignoreZeroDistance %} AND {{ distance_col }} <> 0{%- endif %}
+        {%- endif -%}
+        {%- if ignoreZeroDistance %} AND {{ distance_col }} <> 0{%- endif -%}
     )
 
     SELECT
