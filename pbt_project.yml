@@ -1,6 +1,6 @@
 name: DatabricksSqlSpatial
 description: ''
-version: 0.0.5.dev0
+version: 0.0.5
 author: abhinav@prophecy.io
 language: sql
 buildSystem: ''
