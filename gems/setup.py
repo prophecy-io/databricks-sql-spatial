@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 setup(
     name = 'DatabricksSqlSpatial',
-    version = '0.0.5',
+    version = '0.0.6.dev0',
     packages = ['DatabricksSqlSpatial'],
     package_dir = {'DatabricksSqlSpatial': '.'},
     description = '',
