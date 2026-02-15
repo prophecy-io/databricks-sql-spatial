@@ -18,6 +18,7 @@ class Buffer(MacroSpec):
         distance: int = 1
         unit: str = "miles"
         geometryColumnName: str = ""
+        outputColumnName: str = ""
         
 
     def get_relation_names(self, component: Component, context: SqlContext):
@@ -64,18 +65,31 @@ class Buffer(MacroSpec):
                     SchemaColumnsDropdown("Geometry column")
                         .bindSchema("component.ports.inputs[0].schema")
                         .bindProperty("geometryColumnName")
-                )                               
+                )
+                .addElement(
+                    TextBox("Output column", placeholder="Output column").bindProperty("outputColumnName")
+                )                                
                 .addElement(
                     NumberBox("Distance",placeholder="10").bindProperty("distance")
                 )                
                 .addElement(
-                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").bindProperty("unit")
-                )  
+                    SelectBox("Units").addOption("Miles", "miles").addOption("Kilometers", "kms").addOption("Meters", "meters").bindProperty("unit")
+                ) 
        ))
 
     def validate(self, context: SqlContext, component: Component) -> List[Diagnostic]:
         # Validate the component's state
-        return super().validate(context,component)
+        diagnostics = []
+        if len(component.properties.outputColumnName.strip()) == 0:
+            diagnostics.append(
+                Diagnostic(
+                    "properties.outputColumnName",
+                    "Field 'Output column' cannot be empty.",
+                    SeverityLevelEnum.Error  
+                ) 
+            )     
+        return diagnostics
+
 
     def onChange(self, context: SqlContext, oldState: Component, newState: Component) -> Component:
         # Handle changes in the component's state and return the new state
@@ -100,9 +114,10 @@ class Buffer(MacroSpec):
         arguments = [
             f"'{table_name}'",   
             props.schema,
-            f"'{props.geometryColumnName}'",            
+            f"'{props.geometryColumnName}'",
+            f"'{props.outputColumnName}'",         
             str(props.distance),
-            f"'{props.unit}'"
+            f"'{props.unit}'", 
         ]
 
         params = ",".join([param for param in arguments])
@@ -117,7 +132,8 @@ class Buffer(MacroSpec):
             schema=parametersMap.get('schema'),
             geometryColumnName=parametersMap.get('geometryColumnName'),
             distance=int(parametersMap.get('distance')),
-            unit=str(parametersMap.get('unit'))
+            unit=str(parametersMap.get('unit')),
+            outputColumnName=str(parametersMap.get('outputColumnName'))
         )
 
     def unloadProperties(self, properties: PropertiesType) -> MacroProperties:
@@ -130,7 +146,8 @@ class Buffer(MacroSpec):
                 MacroParameter("schema", str(properties.schema)),
                 MacroParameter("destinationColumnNames", properties.geometryColumnName),
                 MacroParameter("distance", str(properties.distance)),
-                MacroParameter("unit", properties.unit)
+                MacroParameter("unit", properties.unit),
+                MacroParameter("outputColumnName", properties.outputColumnName)
             ]
         )
 
