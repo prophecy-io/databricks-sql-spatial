@@ -65,6 +65,9 @@ macros:
   - name: "passThroughAggregation"
     type: "value"
     description: "{\"ProphecyType\": \"value\"}"
+  - name: "pass_through_columns"
+    type: "value"
+    description: "{\"ProphecyType\": \"value\"}"
   macroType: "query"
 - name: "FindNearest"
   arguments:

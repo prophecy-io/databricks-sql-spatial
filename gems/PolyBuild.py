@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import dataclasses
 import json
 
@@ -18,12 +18,13 @@ class PolyBuild(MacroSpec):
     class PolyBuildProperties(MacroProperties):
         # properties for the component with default values
         relation_name: List[str] = field(default_factory=list)
+        schema: str = ""
         buildMethod: str = "SequencePolygon"
         longitudeColumnName: str = ""
         latitudeColumnName: str = ""
         groupColumnName: str = ""
         sequenceColumnName: str = ""
-        passThroughAggregation: str = "first"
+        passThroughAggregation: str = ""
 
     def get_relation_names(self, component: Component, context: SqlContext):
         all_upstream_nodes = []
@@ -170,11 +171,14 @@ class PolyBuild(MacroSpec):
 
     def onChange(self, context: SqlContext, oldState: Component, newState: Component) -> Component:
         # Handle changes in the component's state and return the new state
+        schema = json.loads(str(newState.ports.inputs[0].schema).replace("'", '"'))
+        fields_array = [{"name": field["name"], "dataType": field["dataType"]["type"]} for field in schema["fields"]]
         relation_name = self.get_relation_names(newState, context)
 
         newProperties = dataclasses.replace(
             newState.properties,
-            relation_name=relation_name
+            schema=json.dumps(fields_array),
+            relation_name=relation_name,
         )
         return newState.bindProperties(newProperties)
 
@@ -185,6 +189,22 @@ class PolyBuild(MacroSpec):
         # Get the Single Table Name
         table_name: str = ",".join(str(rel) for rel in props.relation_name)
 
+        if props.schema and props.schema.strip():
+            all_columns = [f["name"] for f in json.loads(props.schema)]
+        else:
+            all_columns = []
+        pass_through_columns = [
+            col
+            for col in all_columns
+            if col
+            not in [
+                props.longitudeColumnName,
+                props.latitudeColumnName,
+                props.groupColumnName,
+                props.sequenceColumnName,
+            ]
+        ]
+
         arguments = [
             "'" + table_name + "'",
             "'" + props.buildMethod + "'",
@@ -192,7 +212,8 @@ class PolyBuild(MacroSpec):
             "'" + props.latitudeColumnName + "'",
             "'" + props.groupColumnName + "'",
             "'" + props.sequenceColumnName + "'",
-            "'" + props.passThroughAggregation + "'"
+            "'" + props.passThroughAggregation + "'",
+            "'" + json.dumps(pass_through_columns) + "'",
         ]
         params = ",".join([param for param in arguments])
         return f'{{{{ {resolved_macro_name}({params}) }}}}'
@@ -203,12 +224,13 @@ class PolyBuild(MacroSpec):
         parametersMap = self.convertToParameterMap(properties.parameters)
         return PolyBuild.PolyBuildProperties(
             relation_name=parametersMap.get('relation_name'),
+            schema=parametersMap.get('schema'),
             buildMethod=parametersMap.get('buildMethod'),
             longitudeColumnName=parametersMap.get('longitudeColumnName'),
             latitudeColumnName=parametersMap.get('latitudeColumnName'),
             groupColumnName=parametersMap.get('groupColumnName'),
             sequenceColumnName=parametersMap.get('sequenceColumnName'),
-            passThroughAggregation=parametersMap.get('passThroughAggregation') or 'first',
+            passThroughAggregation=parametersMap.get('passThroughAggregation'),
         )
 
     def unloadProperties(self, properties: PropertiesType) -> MacroProperties:
@@ -218,6 +240,7 @@ class PolyBuild(MacroSpec):
             projectName=self.projectName,
             parameters=[
                 MacroParameter("relation_name", str(properties.relation_name)),
+                MacroParameter("schema", str(properties.schema)),
                 MacroParameter("buildMethod", properties.buildMethod),
                 MacroParameter("longitudeColumnName", properties.longitudeColumnName),
                 MacroParameter("latitudeColumnName", properties.latitudeColumnName),
@@ -228,10 +251,13 @@ class PolyBuild(MacroSpec):
         )
 
     def updateInputPortSlug(self, component: Component, context: SqlContext):
+        schema = json.loads(str(component.ports.inputs[0].schema).replace("'", '"'))
+        fields_array = [{"name": field["name"], "dataType": field["dataType"]["type"]} for field in schema["fields"]]
         relation_name = self.get_relation_names(component, context)
 
         newProperties = dataclasses.replace(
             component.properties,
-            relation_name=relation_name
+            schema=json.dumps(fields_array),
+            relation_name=relation_name,
         )
         return component.bindProperties(newProperties)
