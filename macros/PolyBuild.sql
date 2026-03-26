@@ -3,9 +3,9 @@
         buildMethod,
         longitudeColumnName,
         latitudeColumnName,
+        passThroughAggregation,
         groupColumnName='',
         sequenceColumnName='',
-        passThroughAggregation,
         pass_through_columns='[]'
 ) %}
 

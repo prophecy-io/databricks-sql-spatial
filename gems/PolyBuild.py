@@ -210,9 +210,9 @@ class PolyBuild(MacroSpec):
             "'" + props.buildMethod + "'",
             "'" + props.longitudeColumnName + "'",
             "'" + props.latitudeColumnName + "'",
+            "'" + props.passThroughAggregation + "'",
             "'" + props.groupColumnName + "'",
             "'" + props.sequenceColumnName + "'",
-            "'" + props.passThroughAggregation + "'",
             "'" + json.dumps(pass_through_columns) + "'",
         ]
         params = ",".join([param for param in arguments])
