@@ -4,7 +4,8 @@
         longitudeColumnName,
         latitudeColumnName,
         groupColumnName='',
-        sequenceColumnName=''
+        sequenceColumnName='',
+        passThroughAggregation='first'
 ) %}
 
 {# ── 0. quick passthrough check ────────────────────────────────────────── #}
@@ -15,6 +16,8 @@
 {% else %}
     {# ── validate buildMethod ──────────────────────────────────────────────── #}
     {% set method = buildMethod | lower %}
+    {% set passthrough_agg = (passThroughAggregation | default('first') | lower | trim) %}
+    -- pass-through column aggregation (reserved): {{ passthrough_agg }}
     {# ── flag presence of group / sequence columns ─────────────────────────── #}
     {% set has_group = groupColumnName   | trim | length > 0 %}
     {% set has_seq   = sequenceColumnName | trim | length > 0 %}

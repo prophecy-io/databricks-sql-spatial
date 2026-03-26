@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import dataclasses
 import json
 
@@ -23,6 +23,7 @@ class PolyBuild(MacroSpec):
         latitudeColumnName: str = ""
         groupColumnName: str = ""
         sequenceColumnName: str = ""
+        passThroughAggregation: str = "first"
 
     def get_relation_names(self, component: Component, context: SqlContext):
         all_upstream_nodes = []
@@ -105,6 +106,19 @@ class PolyBuild(MacroSpec):
                                         .addColumn()
                                         .addColumn()
                                     )
+                                    .addElement(
+                                        ColumnsLayout(gap="1rem", height="100%")
+                                        .addColumn(
+                                            SelectBox("Pass Through Columns Aggregation Type")
+                                            .addOption("First", "first")
+                                            .addOption("Min", "min")
+                                            .addOption("Max", "max")
+                                            .bindProperty("passThroughAggregation")
+                                        )
+                                        .addColumn()
+                                        .addColumn()
+                                        .addColumn()
+                                    )
                         )
                     )
 
@@ -177,7 +191,8 @@ class PolyBuild(MacroSpec):
             "'" + props.longitudeColumnName + "'",
             "'" + props.latitudeColumnName + "'",
             "'" + props.groupColumnName + "'",
-            "'" + props.sequenceColumnName + "'"
+            "'" + props.sequenceColumnName + "'",
+            "'" + props.passThroughAggregation + "'"
         ]
         params = ",".join([param for param in arguments])
         return f'{{{{ {resolved_macro_name}({params}) }}}}'
@@ -192,7 +207,8 @@ class PolyBuild(MacroSpec):
             longitudeColumnName=parametersMap.get('longitudeColumnName'),
             latitudeColumnName=parametersMap.get('latitudeColumnName'),
             groupColumnName=parametersMap.get('groupColumnName'),
-            sequenceColumnName=parametersMap.get('sequenceColumnName')
+            sequenceColumnName=parametersMap.get('sequenceColumnName'),
+            passThroughAggregation=parametersMap.get('passThroughAggregation') or 'first',
         )
 
     def unloadProperties(self, properties: PropertiesType) -> MacroProperties:
@@ -206,7 +222,8 @@ class PolyBuild(MacroSpec):
                 MacroParameter("longitudeColumnName", properties.longitudeColumnName),
                 MacroParameter("latitudeColumnName", properties.latitudeColumnName),
                 MacroParameter("groupColumnName", properties.groupColumnName),
-                MacroParameter("sequenceColumnName", properties.sequenceColumnName)
+                MacroParameter("sequenceColumnName", properties.sequenceColumnName),
+                MacroParameter("passThroughAggregation", properties.passThroughAggregation),
             ],
         )
 

@@ -62,6 +62,9 @@ macros:
   - name: "sequenceColumnName"
     type: "value"
     description: "{\"ProphecyType\": \"value\"}"
+  - name: "passThroughAggregation"
+    type: "value"
+    description: "{\"ProphecyType\": \"value\"}"
   macroType: "query"
 - name: "FindNearest"
   arguments:
