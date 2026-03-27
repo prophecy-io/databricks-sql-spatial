@@ -213,7 +213,7 @@ class PolyBuild(MacroSpec):
             "'" + props.passThroughAggregation + "'",
             "'" + props.groupColumnName + "'",
             "'" + props.sequenceColumnName + "'",
-            "'" + json.dumps(pass_through_columns) + "'",
+            str(pass_through_columns),
         ]
         params = ",".join([param for param in arguments])
         return f'{{{{ {resolved_macro_name}({params}) }}}}'

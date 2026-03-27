@@ -6,7 +6,7 @@
         passThroughAggregation,
         groupColumnName='',
         sequenceColumnName='',
-        pass_through_columns='[]'
+        pass_through_columns=[]
 ) %}
 
 {# ── 0. quick passthrough check ────────────────────────────────────────── #}
